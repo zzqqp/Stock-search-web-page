@@ -25,7 +25,7 @@ app.get('/StockSearch.js', function(request, response) {
     response.sendFile(__dirname + "/" + "StockSearch.js");
 });
 
-// for bootstrap-toggle
+//  bootstrap-toggle
 app.get('/angular-bootstrap-toggle.min.css', function(request, response) {
     response.sendFile(__dirname + "/" + "angular-bootstrap-toggle.min.css");
 });
@@ -66,12 +66,12 @@ app.get('/History', function(request, response){
     }, function(err, res, body) {
         if(!err && res.statusCode == 200) {
             console.log(URL);
-            // get JSON fields
+            
             var all_fields = [];
             for (field in body){
                 all_fields.push(field);
             }
-            //console.log(all_fields);
+          
             if(body == {} || all_fields[0] == "Error Message"){
                 response.json({JSONdata : "APIError"});
                 console.log("[Error]: History API error 1, at "+ date.toLocaleString()+" , URL: " + URL);
@@ -122,7 +122,7 @@ app.get('/TimeSeries', function(request, response){
             for (field in body){
                 all_fields.push(field);
             }
-            //console.log(all_fields);
+           
             if(body == {} || all_fields[0] == "Error Message"){
                 response.json({JSONdata : "APIError"});
                 console.log("[Error]: Time Series API error 1, at "+ date.toLocaleString()+" , URL: " + URL);
@@ -151,7 +151,7 @@ app.get('/TimeSeries', function(request, response){
                 }
                 cnt += 1;
             }
-            //console.log(lastTwoDay);
+          
             if(body[all_fields[0]] === undefined){
                 response.json({JSONdata : "APIError"});
                 console.log("[Error]: Time Series API error 3, at "+ date.toLocaleString()+" , URL: " + URL);
@@ -173,7 +173,7 @@ app.get('/TimeSeries', function(request, response){
                 "Day's Range" : parseFloat(lastTwoDay[0]["3. low"]).toFixed(2) + " - " + parseFloat(lastTwoDay[0]["2. high"]).toFixed(2),
                 "Volume" : parseInt(lastTwoDay[0]["5. volume"]).toLocaleString()
             };
-            //console.log(data);
+           
             volume = volume.reverse();
             price = price.reverse();
             dates = dates.reverse();
@@ -256,7 +256,7 @@ app.get('/Indicator', function(request, response) { // SMA EMA RSI
                 real_data[sub_fields[i]] = real_data[sub_fields[i]].reverse();
             }
             dates = dates.reverse();
-            //console.log(real_data);
+          
             response.json({JSONdata : real_data,
                 "dates" : dates});
             console.log("[Success]: " + Indicator + " finished, at " + date.toLocaleString()+" , URL: " + URL);
@@ -267,7 +267,6 @@ app.get('/Indicator', function(request, response) { // SMA EMA RSI
 app.get('/NewsFeed', function(request, response){
     var Symbol = request.query.symbol;
     var URL = "https://seekingalpha.com/api/sa/combined/" + Symbol + ".xml";
-    //console.log(URL);
     REQUEST({
         url : URL,
         headers: {
@@ -278,7 +277,7 @@ app.get('/NewsFeed', function(request, response){
         if(!err && res.statusCode == 200) {
             console.log(URL);
             // get JSON fields
-            //console.log(body);
+        
             parseString(body, function(err, result) {
                 var items = result["rss"]["channel"][0]["item"];
                 var news = [];
@@ -324,7 +323,7 @@ app.get('/ChartConvert', function(request, response){
     REQUEST(options, function (err, res, body) {
         if (!err && response.statusCode == 200) {
             // Print out the response body
-            //console.log(body);
+  
             response.json({JSONdata : body});
             console.log("[Success]: ChartConvert finished, at " + date.toLocaleString()+" , Image URL: " + body);
         }
@@ -340,5 +339,5 @@ app.use(function(req, res, next) {
 var server = app.listen(3000, function() {
     var host = server.address().address;
     var port = server.address().port;
-    console.log("instance, with address http://%s:%s", host, port); // on which ip????
+    console.log("instance, with address http://%s:%s", host, port); 
 });
